@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
-using System.Collections.Generic;
+using Course.Entities;
+using Course.Entities.Enums;
 
 namespace Course
 {
@@ -8,44 +9,22 @@ namespace Course
     {
         static void Main(string[] args)
         {
-            HashSet<int> A = new HashSet<int>();
-            HashSet<int> B = new HashSet<int>();
-            HashSet<int> C = new HashSet<int>();
-
-            Console.WriteLine("O curso A possui quantos alunos A?");
-            int n = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("Digite os codigos dos alunos do curso A:");
-            for (int i = 0; i < n; i++)
+            Order order = new Order
             {
-                int x = int.Parse(Console.ReadLine());
-                A.Add(x);
-            }
+                Id = 1080,
+                Moment = DateTime.Now,
+                Status = OrderStatus.PendingPayment
+        };
 
-            Console.WriteLine("Quantos alunos possui o curso B");
-            n = int.Parse(Console.ReadLine());
+            Console.WriteLine(order);
 
-            Console.WriteLine("Digite os códigos dos alunos do curso B: ");
-            for (int i = 0; i < n; i++)
-            {
-                int x = int.Parse(Console.ReadLine());
-                B.Add(x);
-            }
-            Console.Write("Quantos alunos possui o curso C? ");
-            n = int.Parse(Console.ReadLine());
-            Console.WriteLine("Digite os códigos dos alunos do curso C: ");
-            for (int i = 0; i < n; i++)
-            {
-                int x = int.Parse(Console.ReadLine());
-                C.Add(x);
-            }
-            HashSet<int> Novo = new HashSet<int>();
-            Novo.UnionWith(A);
-            Novo.UnionWith(B);
-            Novo.UnionWith(C);
-            Console.WriteLine("Total de Alunos: " + Novo.Count);
-            Console.ReadLine();
+            string txt = OrderStatus.PendingPayment.ToString();
 
+            OrderStatus os = Enum.Parse<OrderStatus>("Delivered");
+
+            Console.WriteLine(os);
+
+            Console.WriteLine(txt);
         }
     }
 }
