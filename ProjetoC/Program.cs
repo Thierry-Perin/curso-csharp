@@ -1,6 +1,8 @@
 ﻿using System;
 using Course.Entities;
+using Course.Entities.Exceptions;
 using System.Globalization;
+using System.Collections.Generic;
 
 namespace Course
 {
@@ -8,48 +10,35 @@ namespace Course
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Enter cliente data:");
-            Console.Write("Name: ");
-            string clientName = Console.ReadLine();
-            Console.Write("Email: ");
-            string email = Console.ReadLine();
-            Console.Write("Birth date (DD/MM/YYYY): ");
-            DateTime birthDate = DateTime.Parse(Console.ReadLine());
+            Console.WriteLine("Enter account data");
+            Console.Write("Number: ");
+            int number = int.Parse(Console.ReadLine());
+            Console.Write("Holder: ");
+            string holder = Console.ReadLine();
+            Console.Write("Initial balance: ");
+            double balance = double.Parse(Console.ReadLine());
+            Console.Write("Witdraw limit: ");
+            double withdrawLimit = double.Parse(Console.ReadLine());
 
-            Console.WriteLine("Enter order data:");
-            Console.Write("Status: ");
-            OrderStatus status = Enum.Parse<OrderStatus>(Console.ReadLine());
-
-            Client client = new Client(clientName, email, birthDate);
-            Order order = new Order(DateTime.Now, status, client);
-
-            Console.Write("How man items to this order? ");
-            int n = int.Parse(Console.ReadLine());
-
-            for (int i = 1; i <= n; i++)
-            {
-                Console.WriteLine($"Enter #{i} item data:");
-                Console.Write("Product name: ");
-                string productName = Console.ReadLine();
-                Console.Write("Product price: ");
-                double price = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
-
-                Product product = new Product(productName, price);
-
-                Console.Write("Quantity: ");
-                int quantity = int.Parse(Console.ReadLine());
-
-                OrderItem orderItem = new OrderItem(quantity, price, product);
-
-                order.AddItem(orderItem);
-            }
+            Account acc = new Account(number, holder, balance, withdrawLimit);
 
             Console.WriteLine();
-            Console.WriteLine("ORDER SUMMARY: ");
-            Console.WriteLine(order);
+            Console.Write("Enter amount for withdraw: ");
+            double amount = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
 
+            try
+            {
+                acc.Withdraw(amount);
+                Console.WriteLine("New balance: " + acc.Balance.ToString("F2",CultureInfo.InvariantCulture));
 
+            }
+            catch (DomainException e)
+            {
+                Console.WriteLine("Withdraw erro: " + e.Message);
 
+            }
+            
         }
     }
 }
+
